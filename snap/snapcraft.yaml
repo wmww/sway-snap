@@ -1,0 +1,43 @@
+name: sway
+version: git
+summary: A snap of the Sway Wayland compositor
+description: A snap of the Sway Wayland compositor
+confinement: classic
+grade: devel
+base: core18
+
+apps:
+  mate-wayland:
+    command: bin/sway
+
+parts:
+  wayland-protocols:
+    source: https://anongit.freedesktop.org/git/wayland/wayland-protocols.git
+    plugin: autotools
+
+  wlroots:
+    source: https://github.com/swaywm/wlroots.git
+    after: [wayland-protocols]
+    plugin: meson
+    build-environment:
+      # find wayland-protocols.pc
+      - PKG_CONFIG_PATH: ${SNAPCRAFT_STAGE}/share/pkgconfig/
+    build-packages:
+      - cmake
+      - pkg-config
+      - libwayland-dev
+      - libegl1-mesa-dev
+      - libgles2-mesa-dev
+      - libgbm-dev
+      - libinput-dev
+      - libxkbcommon-dev
+      - libpixman-1-dev
+      - libsystemd-dev
+      #- libxcb-xinput-dev
+      - libcap-dev
+      - libxcb-composite0-dev
+      - libxcb-icccm4-dev
+      - libpng-dev
+      - libavutil-dev
+      - libavcodec-dev
+      - libavformat-dev
